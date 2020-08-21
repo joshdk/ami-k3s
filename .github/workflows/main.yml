@@ -10,6 +10,34 @@ on:
       - "v*"
 
 jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Packer 1.6.1
+        run: |
+          wget -q -O packer.zip https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip
+          unzip packer.zip
+          sudo install packer /usr/bin/packer
+          packer version
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build AMI with Packer
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        run: |
+          packer build \
+            -var "aws_access_key=${AWS_ACCESS_KEY_ID}" \
+            -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
+            -var "aws_region=${AWS_DEFAULT_REGION}" \
+            -var "version=$(git describe --tags)" \
+            packer
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -24,6 +52,8 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Lint Packer code
         run: |
