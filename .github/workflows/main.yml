@@ -24,6 +24,8 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Build AMI with Packer
         env:
@@ -52,8 +54,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - name: Lint Packer code
         run: |
