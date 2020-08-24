@@ -1,0 +1,10 @@
+[Unit]
+Description=Install k3s on boot
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/k3s-boot.sh
+
+[Install]
+WantedBy=multi-user.target
