@@ -14,7 +14,7 @@ source "amazon-ebs" "k3s" {
     ]
   }
 
-  ami_description = "Boot into k3s}"
+  ami_description = "Boot into k3s"
   ami_name = "k3s-${var.version}"
   instance_type = "t2.micro"
   region = var.aws_region

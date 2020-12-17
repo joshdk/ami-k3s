@@ -10,11 +10,3 @@ sleep 30
 
 k3s kubectl get no -o=wide
 k3s kubectl get all --all-namespaces -o=wide
-
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-
-helm install nginx-ingress ingress-nginx/ingress-nginx \
-    --kubeconfig /etc/rancher/k3s/k3s.yaml \
-    --namespace kube-system \
-    --set defaultBackend.enabled=false
