@@ -5,18 +5,21 @@ main() {
     # Update base system.
     sudo yum update -y
 
+    # Install additional packages.
+    sudo yum install -y git
+
     # Remove unused services.
     sudo yum erase -y \
         postfix \
         rpcbind
 
-    # Install Helm.
-    wget --quiet https://get.helm.sh/helm-v3.3.0-linux-amd64.tar.gz
-    tar -xvf helm-v3.3.0-linux-amd64.tar.gz
-    sudo install linux-amd64/helm /usr/bin/helm
+    # Download and install kustomize.
+    wget --quiet https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.8.8/kustomize_v3.8.8_linux_amd64.tar.gz
+    tar -xvf kustomize_v3.8.8_linux_amd64.tar.gz
+    sudo install kustomize /usr/bin/kustomize
 
     # Download the official k3s installer.
-    wget -q -O /tmp/files/k3s-install.sh https://raw.githubusercontent.com/rancher/k3s/v1.18.8%2Bk3s1/install.sh
+    wget -q -O /tmp/files/k3s-install.sh https://raw.githubusercontent.com/rancher/k3s/v1.19.5%2Bk3s1/install.sh
     sudo install /tmp/files/k3s-install.sh /usr/local/bin/k3s-install.sh
 
     # Install the on-boot k3s setup Systemd unit.
