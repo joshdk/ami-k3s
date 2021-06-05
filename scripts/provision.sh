@@ -14,12 +14,12 @@ main() {
         rpcbind
 
     # Download and install kustomize.
-    wget --quiet https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv3.8.8/kustomize_v3.8.8_linux_amd64.tar.gz
-    tar -xvf kustomize_v3.8.8_linux_amd64.tar.gz
+    wget --quiet https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.5.7/kustomize_v4.5.7_linux_amd64.tar.gz
+    tar -xvf kustomize_v4.5.7_linux_amd64.tar.gz
     sudo install kustomize /usr/bin/kustomize
 
     # Download the official k3s installer.
-    wget -q -O /tmp/files/k3s-install.sh https://raw.githubusercontent.com/rancher/k3s/v1.19.5%2Bk3s1/install.sh
+    wget -q -O /tmp/files/k3s-install.sh https://raw.githubusercontent.com/rancher/k3s/v1.25.3+k3s1/install.sh
     sudo install /tmp/files/k3s-install.sh /usr/local/bin/k3s-install.sh
 
     # Install the on-boot k3s setup Systemd unit.

@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Install Packer 1.6.1
+      - name: Install Packer
         run: |
-          wget -q -O packer.zip https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip
+          wget -q -O packer.zip https://releases.hashicorp.com/packer/1.8.3/packer_1.8.3_linux_amd64.zip
           unzip packer.zip
           sudo install packer /usr/bin/packer
           packer version
@@ -26,6 +26,15 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Lint Packer code
+        run: |
+          packer validate \
+            -var "aws_access_key=" \
+            -var "aws_secret_key=" \
+            -var "aws_region=" \
+            -var "version=" \
+            packer
 
       - name: Build AMI with Packer
         env:
@@ -38,28 +47,4 @@ jobs:
             -var "aws_secret_key=${AWS_SECRET_ACCESS_KEY}" \
             -var "aws_region=${AWS_DEFAULT_REGION}" \
             -var "version=$(git describe --tags)" \
-            packer
-
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Install Packer 1.6.1
-        run: |
-          wget -q -O packer.zip https://releases.hashicorp.com/packer/1.6.1/packer_1.6.1_linux_amd64.zip
-          unzip packer.zip
-          sudo install packer /usr/bin/packer
-          packer version
-
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Lint Packer code
-        run: |
-          packer validate \
-            -var "aws_access_key=" \
-            -var "aws_secret_key=" \
-            -var "aws_region=" \
-            -var "version=" \
             packer
